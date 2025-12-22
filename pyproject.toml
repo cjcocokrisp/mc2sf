@@ -5,3 +5,11 @@ description = "A tool that backs up your Minecraft Server to Seafile"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
+
+[project.scripts]
+mc2sf = "mc2sf.main:main"
+
+[tool.uv.workspace]
+members = [
+    "mc2sf",
+]
