@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.appname }}-cm"
+  namespace: {{ .Values.namespace }}
+data:
+  SERVER_PATH: {{ .Values.env.server.path }}
+  SERVER_NAME: {{ .Values.env.server.name }}
+  SEAFILE_URL: {{ .Values.env.seafile.url }}
+  SEAFILE_USERNAME: {{ .Values.env.seafile.username }}
+  SEAFILE_UPLOAD_DIR: {{ .Values.env.seafile.dir }}
+  DISCORD_WEBHOOK_URL: {{ .Values.env.webhook.discord }}

@@ -1,0 +1,33 @@
+# Default values for mc2sf.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# General Options
+namespace: default
+appname: mc2sf
+image: ghcr.io/cjcocokrisp/mc2sf:latest
+imagepullpolicy: Always
+cron: "0 0 * * 0" # Every Sunday at midnight
+
+# Job Mount Related Options
+mountPath: /app/data
+mountType: pvc
+pvc:
+  claimname: mc-server-pvc
+nfs:
+  server: 127.0.0.1
+  path: /
+
+# Configmap & Secret Related Options
+env:
+  server:
+    path: ""
+    name: "Minecraft Server"
+  seafile:
+    url: "127.0.0.1"
+    username: "your-username"
+    password: "your-super-secret-password"
+    dir: ""
+    repoid: "your-repo-id"
+  webhook:
+    discord: ""

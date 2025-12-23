@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "{{ .Values.appname }}-job"
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    app: "{{ .Values.appname }}"
+spec:
+  schedule: "{{ .Values.cron }}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: "{{ .Values.appname }}"
+              image: "{{ .Values.image }}"
+              imagePullPolicy: "{{ .Values.imagepullpolicy }}"
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                seccompProfile:
+                  type: RuntimeDefault
+              env:
+                - name: PYTHONUNBUFFERED
+                  value: "1"
+              envFrom:
+                - configMapRef:
+                    name: "{{ .Values.appname }}-cm"
+                - secretRef:
+                    name: "{{ .Values.appname }}-secret"
+              volumeMounts:
+                - name: server-data
+                  mountPath: "{{ .Values.mountPath }}"
+                - name: uv-cache
+                  mountPath: /data/cache
+          restartPolicy: OnFailure
+          volumes:
+            - name: server-data
+              {{- if eq .Values.mountType "pvc" }}
+              persistentVolumeClaim:
+                claimName: "{{ .Values.pvc.claimname }}"
+              {{- else if eq .Values.mountType "nfs" }}
+              nfs:
+                server: "{{ .Values.nfs.server }}"
+                path: "{{ .Values.nfs.path }}"
+              {{ end }}
+            - name: uv-cache
+              emptyDir: {}
+

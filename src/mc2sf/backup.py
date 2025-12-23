@@ -5,7 +5,7 @@ from datetime import datetime
 def generate_output_path():
     format = "%Y-%m-%d_%H:%M:%S"
     now = datetime.now()
-    return f"{now.strftime(format)}"
+    return f"/tmp/{now.strftime(format)}"
 
 
 def create_zip_archive(path: str) -> str:
