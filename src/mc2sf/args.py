@@ -10,11 +10,12 @@ class Args:
     password: str
     repo_id: str
     dir: str
+    server_name: str
     discord_webhook_url: str
 
 
 def parse_env() -> Args:
-    args = Args("", "", "", "", "", "", "")
+    args = Args("", "", "", "", "", "", "Minecraft Server", "")
 
     path = os.getenv("SERVER_PATH")
     if path is None:
@@ -44,6 +45,10 @@ def parse_env() -> Args:
     upload_dir = os.getenv("SEAFILE_UPLOAD_DIR")
     if upload_dir is not None:
         args.dir = upload_dir
+
+    server_name = os.getenv("SERVER_NAME")
+    if server_name is not None:
+        args.server_name = server_name
 
     discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     if discord_webhook_url is not None:

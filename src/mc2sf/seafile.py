@@ -1,7 +1,8 @@
 import requests
 
 AUTH_ENDPOINT = "api2/auth-token/"
-GET_FILE_UPLOAD_LINK = "api2/repos/repo_id/upload-link/"
+GET_FILE_UPLOAD_LINK_ENDPOINT = "api2/repos/repo_id/upload-link/"
+GET_LIBRARY_INFO_ENDPOINT = "api2/repos/repo_id/"
 
 
 def get_auth_token(url: str, username: str, password: str) -> str:
@@ -17,7 +18,9 @@ def get_auth_token(url: str, username: str, password: str) -> str:
 
 
 def upload_to_seafile(token: str, url: str, file_name: str, dir: str, repo_id: str):
-    get_upload_link_url = url + GET_FILE_UPLOAD_LINK.replace("repo_id", repo_id)
+    get_upload_link_url = url + GET_FILE_UPLOAD_LINK_ENDPOINT.replace(
+        "repo_id", repo_id
+    )
     headers = {"Accept": "application/json", "Authorization": "Bearer " + token}
 
     res = requests.get(get_upload_link_url, headers=headers)
@@ -39,3 +42,15 @@ def upload_to_seafile(token: str, url: str, file_name: str, dir: str, repo_id: s
             raise Exception(f"POST request returned status code {str(res.status_code)}")
 
         return res.json()[0]
+
+
+def get_library_info(token: str, url: str, repo_id: str):
+    get_library_info_url = url + GET_LIBRARY_INFO_ENDPOINT.replace("repo_id", repo_id)
+    headers = {"Accept": "application/json", "Authorization": "Bearer " + token}
+
+    res = requests.get(get_library_info_url, headers=headers)
+
+    if res.status_code != 200:
+        raise Exception(f"GET Request returned status code {str(res.status_code)}")
+
+    return res.json()
