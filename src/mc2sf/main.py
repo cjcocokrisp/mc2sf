@@ -39,6 +39,10 @@ def main():
             args.discord_webhook_url,
             args.server_name,
             details,
-            library_info["name"] + "/" + args.dir + "/" + archive_path,
+            library_info["name"]
+            + "/"
+            + args.dir
+            + "/"
+            + archive_path.replace("/tmp", ""),
             elapsed_time,
         )
