@@ -5,6 +5,7 @@ description = "A tool that backs up your Minecraft Server to Seafile"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "rcon>=2.4.9",
     "requests>=2.32.5",
     "zipfly>=6.0.5",
 ]

@@ -66,14 +66,25 @@ name = "mc2sf"
 version = "1.1.1"
 source = { virtual = "." }
 dependencies = [
+    { name = "rcon" },
     { name = "requests" },
     { name = "zipfly" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "rcon", specifier = ">=2.4.9" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "zipfly", specifier = ">=6.0.5" },
+]
+
+[[package]]
+name = "rcon"
+version = "2.4.9"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/45/edde086b16cd38591794d328ef62c47f089ac04f32a63b4fcab0981d349a/rcon-2.4.9.tar.gz", hash = "sha256:d41a8311dc13352da35163f46a3cc13eb20f5cde1297b75b56e7645ef76d0a48", size = 45220, upload-time = "2024-11-05T18:26:59.783Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/69/d3/2668a6e6bd6d66046ebe811f3fac65402620762e31f80b8f88661a7f3e42/rcon-2.4.9-py3-none-any.whl", hash = "sha256:c0d2477070f189a6b49774133c412473ece40bb452473f160c7373b162dc8929", size = 31129, upload-time = "2024-11-05T18:26:57.945Z" },
 ]
 
 [[package]]

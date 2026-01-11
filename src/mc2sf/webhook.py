@@ -1,14 +1,11 @@
 import requests
+from mc2sf.util import calc_file_size_with_units, get_time_units
 
 
 def discord_webhook(
     webhook_url: str, server_name: str, file_details, seafile_path, time
 ):
-    upload_size = file_details["size"] / 1000000000
-    size_units = "GB"
-    if upload_size < 1:
-        upload_size = upload_size * 1000
-        size_units = "MB"
+    upload_size, size_units = calc_file_size_with_units(file_details)
 
     timestamp = (
         file_details["name"]
@@ -20,14 +17,7 @@ def discord_webhook(
     split[1] = split[1].replace("-", ":")
     timestamp = " ".join(split)
 
-    time_units = "sec"
-    if time > 60:
-        time = time / 60
-        time_units = "min"
-
-    if time > 60:
-        time = time / 60
-        time_units = "hrs"
+    time_units = get_time_units(time)
 
     embed = {
         "title": "mc2sf Backup Completed",

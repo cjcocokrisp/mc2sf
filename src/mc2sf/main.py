@@ -6,6 +6,7 @@ from mc2sf.backup import (
 )
 from mc2sf.seafile import get_auth_token, upload_to_seafile, get_library_info
 from mc2sf.webhook import discord_webhook
+from mc2sf.rcon import rcon_prepare_for_backup, recon_cleanup
 from pathlib import Path
 import time
 import os
@@ -18,6 +19,9 @@ def main():
     start_time = time.perf_counter()
 
     print(f"Beginning backup for {args.path}")
+
+    rcon_prepare_for_backup(args.server_ip, args.server_port, args.rcon_pwd)
+
     archive_path = None
     if args.mode == "single":
         archive_path = create_zip_archive_single(args.path)
@@ -41,6 +45,10 @@ def main():
     end_time = time.perf_counter()
 
     elapsed_time = end_time - start_time
+
+    recon_cleanup(
+        args.server_ip, args.server_port, args.rcon_pwd, elapsed_time, details
+    )
 
     print(f"Backup complete in {round(elapsed_time, 3)} seconds")
     os.remove(archive_path)
