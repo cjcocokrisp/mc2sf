@@ -4,6 +4,7 @@ metadata:
   name: "{{ .Values.appname }}-cm"
   namespace: {{ .Values.namespace }}
 data:
+  BACKUP_MODE: {{ .Values.env.mode }}
   SERVER_PATH: {{ .Values.env.server.path }}
   SERVER_NAME: {{ .Values.env.server.name }}
   SEAFILE_URL: {{ .Values.env.seafile.url }}
