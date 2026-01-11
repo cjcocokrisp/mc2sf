@@ -8,7 +8,7 @@ def calc_file_size_with_units(file_details):
     return (upload_size, size_units)
 
 
-def get_time_units(time) -> str:
+def get_time_units(time):
     time_units = "sec"
     if time > 60:
         time = time / 60
@@ -18,4 +18,4 @@ def get_time_units(time) -> str:
         time = time / 60
         time_units = "hrs"
 
-    return time_units
+    return time, time_units

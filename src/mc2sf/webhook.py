@@ -17,7 +17,7 @@ def discord_webhook(
     split[1] = split[1].replace("-", ":")
     timestamp = " ".join(split)
 
-    time_units = get_time_units(time)
+    time, time_units = get_time_units(time)
 
     embed = {
         "title": "mc2sf Backup Completed",

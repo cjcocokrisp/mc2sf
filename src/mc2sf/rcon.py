@@ -15,7 +15,7 @@ def rcon_prepare_for_backup(ip: str, port: int, pwd: str):
 
 def recon_cleanup(ip: str, port: int, pwd: str, elapsed, file_details):
     file_size, size_units = calc_file_size_with_units(file_details)
-    time_units = get_time_units(elapsed)
+    elapsed, time_units = get_time_units(elapsed)
 
     with Client(ip, port, passwd=pwd) as client:
         client.run("save-on")
