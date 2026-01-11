@@ -16,6 +16,10 @@ WORKDIR /app
 
 COPY --from=builder /app/dist/*.whl .
 
+RUN apt-get update -y && \
+    apt-get install -y zstd && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip install *.whl
 
 CMD ["python", "-m", "mc2sf"]

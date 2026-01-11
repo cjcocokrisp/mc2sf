@@ -13,7 +13,7 @@ selective: "true" # Only for tar mode at the moment, if selected will only backu
 
 # Resource Limits
 ephemeral_limit: "10Gi"
-memory_limit: "4 Gi"
+memory_limit: "4Gi"
 
 # Job Mount Related Options
 mountPath: /app/data
@@ -30,7 +30,7 @@ env:
     path: ""
     name: "Minecraft Server"
     ip: "127.0.0.1"
-    rcon_port: 25575
+    rcon_port: "25575"
     rcon_password: ""
   seafile:
     url: "127.0.0.1"

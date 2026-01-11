@@ -88,7 +88,7 @@ def parse_env() -> Args:
 
     server_pwd = os.getenv("SERVER_RCON_PWD")
     if server_pwd is None:
-        raise ValueError("SERVER_RECON_PWD env variable does not exist")
+        raise ValueError("SERVER_RCON_PWD env variable does not exist")
     args.rcon_pwd = server_pwd
 
     discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
