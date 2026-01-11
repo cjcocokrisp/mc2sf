@@ -67,10 +67,14 @@ version = "1.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "requests" },
+    { name = "zipfly" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "requests", specifier = ">=2.32.5" }]
+requires-dist = [
+    { name = "requests", specifier = ">=2.32.5" },
+    { name = "zipfly", specifier = ">=6.0.5" },
+]
 
 [[package]]
 name = "requests"
@@ -95,3 +99,9 @@ sdist = { url = "https://files.pythonhosted.org/packages/1e/24/a2a2ed9addd907787
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6d/b9/4095b668ea3678bf6a0af005527f39de12fb026516fb3df17495a733b7f8/urllib3-2.6.2-py3-none-any.whl", hash = "sha256:ec21cddfe7724fc7cb4ba4bea7aa8e2ef36f607a4bab81aa6ce42a13dc3f03dd", size = 131182, upload-time = "2025-12-11T15:56:38.584Z" },
 ]
+
+[[package]]
+name = "zipfly"
+version = "6.0.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/64/9e/1a99b30e5e5c99d5f669c6118277d9f34c94a37e20baa2364fd8a15ed7b8/zipfly-6.0.5.tar.gz", hash = "sha256:93c56943dca4bf8a1d7de48a15ca9fa8310ade638f2e2493695853a48448efc0", size = 8233, upload-time = "2022-10-20T05:34:57.158Z" }

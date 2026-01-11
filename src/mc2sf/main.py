@@ -1,5 +1,5 @@
 from mc2sf.args import parse_env
-from mc2sf.backup import create_zip_archive
+from mc2sf.backup import create_zip_archive, create_zip_archive_in_chunks
 from mc2sf.seafile import get_auth_token, upload_to_seafile, get_library_info
 from mc2sf.webhook import discord_webhook
 from pathlib import Path
@@ -14,7 +14,11 @@ def main():
     start_time = time.perf_counter()
 
     print(f"Beginning backup for {args.path}")
-    archive_path = create_zip_archive(args.path)
+    archive_path = None
+    if args.mode != "chunk":
+        archive_path = create_zip_archive(args.path)
+    else:
+        archive_path = create_zip_archive_in_chunks(args.path)
 
     exists_test = Path(archive_path)
     if not exists_test.exists():
@@ -39,10 +43,6 @@ def main():
             args.discord_webhook_url,
             args.server_name,
             details,
-            library_info["name"]
-            + "/"
-            + args.dir
-            + "/"
-            + archive_path.replace("/tmp", ""),
+            library_info["name"] + "/" + args.dir + archive_path.replace("/tmp", ""),
             elapsed_time,
         )

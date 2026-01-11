@@ -4,6 +4,7 @@ import os
 
 @dataclass
 class Args:
+    mode: str
     path: str
     seafile_url: str
     username: str
@@ -15,7 +16,11 @@ class Args:
 
 
 def parse_env() -> Args:
-    args = Args("", "", "", "", "", "", "Minecraft Server", "")
+    args = Args("chunk", "", "", "", "", "", "Minecraft Server", "", "")
+
+    mode = os.getenv("BACKUP_MODE")
+    if mode == "single":
+        args.mode = mode
 
     path = os.getenv("SERVER_PATH")
     if path is None:
