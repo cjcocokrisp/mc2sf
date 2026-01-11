@@ -10,7 +10,16 @@ def discord_webhook(
         upload_size = upload_size * 1000
         size_units = "MB"
 
-    timestamp = file_details["name"].replace("_", " ").replace(".zip", "")
+    timestamp = (
+        file_details["name"]
+        .replace("_", " ")
+        .replace(".zip", "")
+        .replace("tar.zst", "")
+    )
+    split = timestamp.split(" ")
+    split[1] = split[1].replace("-", ":")
+    timestamp = " ".join(split)
+
     time_units = "sec"
     if time > 60:
         time = time / 60

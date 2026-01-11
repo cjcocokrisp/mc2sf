@@ -5,6 +5,7 @@ import os
 @dataclass
 class Args:
     mode: str
+    selective: bool
     path: str
     seafile_url: str
     username: str
@@ -16,11 +17,15 @@ class Args:
 
 
 def parse_env() -> Args:
-    args = Args("stream", "", "", "", "", "", "Minecraft Server", "", "")
+    args = Args("stream", True, "", "", "", "", "Minecraft Server", "", "", "")
 
     mode = os.getenv("BACKUP_MODE")
-    if mode == "single":
+    if mode == "single" or mode == "tar":
         args.mode = mode
+
+    selective = os.getenv("SELECTIVE")
+    if selective == "false":
+        args.selective = False
 
     path = os.getenv("SERVER_PATH")
     if path is None:
