@@ -1,4 +1,5 @@
 import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 AUTH_ENDPOINT = "api2/auth-token/"
 GET_FILE_UPLOAD_LINK_ENDPOINT = "api2/repos/repo_id/upload-link/"
@@ -21,6 +22,7 @@ def upload_to_seafile(token: str, url: str, file_name: str, dir: str, repo_id: s
     get_upload_link_url = url + GET_FILE_UPLOAD_LINK_ENDPOINT.replace(
         "repo_id", repo_id
     )
+
     headers = {"Accept": "application/json", "Authorization": "Bearer " + token}
 
     res = requests.get(get_upload_link_url, headers=headers)
@@ -31,11 +33,17 @@ def upload_to_seafile(token: str, url: str, file_name: str, dir: str, repo_id: s
     upload_url = res.text.replace('"', "")
 
     with open(file_name, "rb") as fp:
-        files = {"file": fp}
-        payload = {"parent_dir": "/", "relative_path": dir}
+        encoder = MultipartEncoder(
+            fields={"file": (file_name, fp), "parent_dir": "/", "relative_path": dir}
+        )
+
+        # files = {"file": fp}
+        # payload = {"parent_dir": "/", "relative_path": dir}
+
+        headers["Content-Type"] = encoder.content_type
 
         res = requests.post(
-            upload_url + "?ret-json=1", headers=headers, files=files, data=payload
+            upload_url + "?ret-json=1", headers=headers, stream=True, data=encoder
         )
 
         if res.status_code != 200:
