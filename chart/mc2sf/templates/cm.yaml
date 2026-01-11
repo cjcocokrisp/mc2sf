@@ -5,8 +5,11 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   BACKUP_MODE: {{ .Values.env.mode }}
+  SELECTIVE: {{ .Values.selective }}
   SERVER_PATH: {{ .Values.env.server.path }}
   SERVER_NAME: {{ .Values.env.server.name }}
+  SERVER_IP: {{ .Values.env.server.ip }}
+  SERVER_RCON_PORT: {{ .Values.env.server.rcon_port }}
   SEAFILE_URL: {{ .Values.env.seafile.url }}
   SEAFILE_USERNAME: {{ .Values.env.seafile.username }}
   SEAFILE_UPLOAD_DIR: {{ .Values.env.seafile.dir }}

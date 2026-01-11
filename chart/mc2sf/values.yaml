@@ -8,7 +8,12 @@ appname: mc2sf
 image: ghcr.io/cjcocokrisp/mc2sf:latest
 imagepullpolicy: Always
 cron: "0 0 * * 0" # Every Sunday at midnight
-mode: stream # Default mode, other option is single
+mode: stream # Default mode, other options are single and tar
+selective: "true" # Only for tar mode at the moment, if selected will only backup important stuff instead of everything
+
+# Resource Limits
+ephemeral_limit: "10Gi"
+memory_limit: "4 Gi"
 
 # Job Mount Related Options
 mountPath: /app/data
@@ -24,6 +29,9 @@ env:
   server:
     path: ""
     name: "Minecraft Server"
+    ip: "127.0.0.1"
+    rcon_port: 25575
+    rcon_password: ""
   seafile:
     url: "127.0.0.1"
     username: "your-username"

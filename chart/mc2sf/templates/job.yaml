@@ -15,6 +15,10 @@ spec:
             - name: "{{ .Values.appname }}"
               image: "{{ .Values.image }}"
               imagePullPolicy: "{{ .Values.imagepullpolicy }}"
+              resources:
+                limits:
+                  ephemeral-storage: {{ .Values.ephemeral_limit }}
+                  memory: {{ .Values.memory_limit }}
               securityContext:
                 runAsUser: 1000
                 runAsGroup: 1000
