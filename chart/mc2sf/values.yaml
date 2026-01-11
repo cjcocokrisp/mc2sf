@@ -8,7 +8,7 @@ appname: mc2sf
 image: ghcr.io/cjcocokrisp/mc2sf:latest
 imagepullpolicy: Always
 cron: "0 0 * * 0" # Every Sunday at midnight
-mode: chunk # Default mode, other option is single
+mode: stream # Default mode, other option is single
 
 # Job Mount Related Options
 mountPath: /app/data

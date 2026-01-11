@@ -10,20 +10,21 @@ def generate_output_path():
     return f"/tmp/{now.strftime(format)}"
 
 
-def create_zip_archive(path: str) -> str:
+def create_zip_archive_single(path: str) -> str:
     output_path = generate_output_path()
     shutil.make_archive(base_name=output_path, format="zip", root_dir=path)
     return output_path + ".zip"
 
 
-def create_zip_archive_in_chunks(path: str) -> str:
+def create_zip_archive_stream(path: str) -> str:
     output_path = generate_output_path() + ".zip"
 
     paths = []
     for root, _, files in os.walk(path):
         for file in files:
             file_path = os.path.join(root, file)
-            paths.append({"fs": file_path})
+            if file_path.find("tmp") == -1:
+                paths.append({"fs": file_path})
 
     zfly = zipfly.ZipFly(paths=paths)
     with open(output_path, "wb") as fp:

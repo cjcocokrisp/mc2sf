@@ -16,7 +16,7 @@ class Args:
 
 
 def parse_env() -> Args:
-    args = Args("chunk", "", "", "", "", "", "Minecraft Server", "", "")
+    args = Args("stream", "", "", "", "", "", "Minecraft Server", "", "")
 
     mode = os.getenv("BACKUP_MODE")
     if mode == "single":
