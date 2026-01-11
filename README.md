@@ -20,6 +20,7 @@ ways to run it locally. Using uv and then installing with the wheel that has bee
 #### Method A: uv
 
 If you have uv installed running the program is as simple as running the following commands.
+
 ```bash
 uv sync
 uv pip install -e .
@@ -29,6 +30,7 @@ uv run mc2sf
 #### Method B: Installing the wheel
 
 If you do not want to install uv you can install the whell from the releases like so.
+
 ```bash
 pip install <path to the wheel>
 python -m mc2sf
@@ -39,6 +41,7 @@ For both methods make sure to set the environment variables as seen below.
 ### Run as a Container
 
 The project has a container image at the following image reference.
+
 ```bash
 ghcr.io/cjcocokrisp/mc2sf:latest
 ```
@@ -64,6 +67,7 @@ appname: mc2sf
 image: ghcr.io/cjcocokrisp/mc2sf:latest
 imagepullpolicy: Always
 cron: "0 0 * * 0" # Every Sunday at midnight
+mode: chunk # Default mode, other option is single
 
 # Job Mount Related Options
 mountPath: /app/data
@@ -89,10 +93,20 @@ env:
     discord: ""
 ```
 
+## Backup Modes
+
+The `BACKUP_MODE` environment variable controls the mode in which backups are made. There are two modes `chunk` or `single` and both vary in the output and how the backup is created.
+
+`chunk` is the default and recommended option that you use. It takes up less amount of memory which is ideal for larger servers. It uses the library [zipfly](https://github.com/sandes/zipfly) which creates a stream to write too instead of just writing it to memory. The downside to this method is the filepaths are directory as they appear when you export it so if the server you are trying to backup is deeply nested then that will be preserved in the backup.
+
+`single` is the other mode available. It takes up more memory due to the entire file being saved in memory. The downside is more memory but the filepath is more neat unlike in the chunk version. This is only advised if the server file size is small.
+
 ## Environment Variables
 
 Below is the list of environment variables that should be set when running the program.
+
 ```
+BACKUP_MODE - Mode to do the backup in. chunks or single (See Backup Modes section for information)
 SERVER_PATH - The path to the directory you are trying to back up (REQUIRED)
 SERVER_NAME - The name for your server, if not provided defaults to Minecraft Server
 SEAFILE_URL - The url or ip of your Seafile instance (REQUIRED)
@@ -106,7 +120,7 @@ DISCORD_WEBHOOK_URL - A Discord Webhook URL to send notifications to when a back
 ## Contributing
 
 If you would like to contribute to the project in anyway please open an issue or reach out to me to brainstorm some ideas.
-You also can just send a pull request just make sure that it is relatively detailed and explains what you are trying to 
+You also can just send a pull request just make sure that it is relatively detailed and explains what you are trying to
 accomplish.
 
 ## Future Features
