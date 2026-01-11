@@ -67,48 +67,62 @@ appname: mc2sf
 image: ghcr.io/cjcocokrisp/mc2sf:latest
 imagepullpolicy: Always
 cron: "0 0 * * 0" # Every Sunday at midnight
-mode: stream # Default mode, other option is single
+mode: stream # Default mode, other options are single and tar
+selective: "true" # Only for tar mode at the moment, if selected will only backup important stuff instead of everything
+
+# Resource Limits
+ephemeral_limit: "10Gi"
+memory_limit: "4 Gi"
 
 # Job Mount Related Options
 mountPath: /app/data
 mountType: pvc
 pvc:
-  claimname: mc-server-pvc # Required
+  claimname: mc-server-pvc
 nfs:
-  server: 127.0.0.1 # Required, if using nfs
-  path: / # Required, if using nfs
+  server: 127.0.0.1
+  path: /
 
 # Configmap & Secret Related Options
 env:
   server:
-    path: "" # Required
+    path: ""
     name: "Minecraft Server"
+    ip: "127.0.0.1"
+    rcon_port: 25575
+    rcon_password: ""
   seafile:
-    url: "127.0.0.1" # Required
-    username: "your-username" # Required
-    password: "your-super-secret-password" # Required
+    url: "127.0.0.1"
+    username: "your-username"
+    password: "your-super-secret-password"
     dir: ""
-    repoid: "your-repo-id" # Required
+    repoid: "your-repo-id"
   webhook:
     discord: ""
 ```
 
 ## Backup Modes
 
-The `BACKUP_MODE` environment variable controls the mode in which backups are made. There are two modes `stream` or `single` and both vary in the output and how the backup is created.
+The `BACKUP_MODE` environment variable controls the mode in which backups are made. There are three modes `stream`, `single`, or `tar` and both vary in the output and how the backup is created.
 
 `stream` is the default and recommended option that you use. It takes up less amount of memory which is ideal for larger servers. It uses the library [zipfly](https://github.com/sandes/zipfly) which creates a stream to write too instead of just writing it to memory. The downside to this method is the filepaths are directory as they appear when you export it so if the server you are trying to backup is deeply nested then that will be preserved in the backup.
 
 `single` is the other mode available. It takes up more memory due to the entire file being saved in memory. The downside is more memory but the filepath is more neat unlike in the stream version. This is only advised if the server file size is small.
+
+`tar` changes the compression format to be a tar compressed with zstd. This will take up less memory but be a different format.
 
 ## Environment Variables
 
 Below is the list of environment variables that should be set when running the program.
 
 ```
-BACKUP_MODE - Mode to do the backup in. stream or single (See Backup Modes section for information)
+BACKUP_MODE - Mode to do the backup in. stream, single, or tar (See Backup Modes section for information)
+SELECTIVE - value of true or false, when in tar mode will only backup specific folders and not everything in the directory
 SERVER_PATH - The path to the directory you are trying to back up (REQUIRED)
 SERVER_NAME - The name for your server, if not provided defaults to Minecraft Server
+SERVER_IP - The ip of the server (REQUIRED)
+SERVER_RCON_PORT - The rcon port on the server (REQUIRED)
+SERVER_RCON_PWD - The rcon password for the server (REQUIRED)
 SEAFILE_URL - The url or ip of your Seafile instance (REQUIRED)
 SEAFILE_USERNAME - The username for the Seafile account that you will be backing up to (REQUIRED)
 SEAFILE_PASSWORD - The password for the Seafile account that you will be backing up to (REQUIRED)
@@ -132,3 +146,5 @@ Top of my head list of things that I would want to add in the future to expand t
 - Ability to back up multiple servers in one run of the program
 
 - More detailed logging
+
+- Better build system so container versions are tagged on release
